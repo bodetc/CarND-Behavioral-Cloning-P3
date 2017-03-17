@@ -4,6 +4,7 @@ from src.generator import read_csv, generator
 from src.models import nvidia
 
 samples = read_csv('./data', '\\')
+samples.extend(read_csv('./data_sim', '/'))
 
 print("Number of lines in csv =", np.alen(samples))
 
@@ -17,16 +18,19 @@ print("Number of training examples =", n_train)
 print("Number of validation examples =", n_validation)
 
 # compile and train the model using the generator function
-train_generator = generator(train_samples, batch_size=64)
-validation_generator = generator(validation_samples, batch_size=64)
+train_generator = generator(train_samples, batch_size=32)
+validation_generator = generator(validation_samples, batch_size=32)
 
 model = nvidia()
-
 model.compile(loss='mse', optimizer='adam')
+
+from keras.callbacks import ModelCheckpoint
+
+callback = ModelCheckpoint('model.{epoch:02d}-{val_loss:.5f}.h5')
 history_object = \
     model.fit_generator(train_generator, samples_per_epoch=n_train,
                         validation_data=validation_generator, nb_val_samples=n_validation,
-                        nb_epoch=3)
+                        nb_epoch=10, callbacks=[callback])
 
 model.save('./model.h5')
 

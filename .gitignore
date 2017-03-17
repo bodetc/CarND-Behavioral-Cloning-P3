@@ -4,3 +4,4 @@
 data/
 data_sim/
 *.h5
+run*

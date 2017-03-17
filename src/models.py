@@ -1,5 +1,5 @@
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Reshape
+from keras.layers import Flatten, Dense, Lambda, Dropout
 from keras.layers.convolutional import Convolution2D, MaxPooling2D, Cropping2D
 
 
@@ -39,8 +39,12 @@ def nvidia():
     model.add(Convolution2D(64, 3, 3, activation='relu'))
     model.add(Convolution2D(64, 3, 3, activation='relu'))
     model.add(Flatten())
+    model.add(Dropout(0.1))
     model.add(Dense(100, activation='relu'))
+    model.add(Dropout(0.1))
     model.add(Dense(50, activation='relu'))
+    model.add(Dropout(0.1))
     model.add(Dense(10, activation='relu'))
+    model.add(Dropout(0.1))
     model.add(Dense(1))
     return model
