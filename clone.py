@@ -3,7 +3,10 @@ import numpy as np
 from src.models import lenet, linear_model, nvidia
 from src.read import read_images, augment_images
 
-images, measurements = read_images('./data', '\\')
+images, measurements = read_images('./data_2runs', '\\')
+
+print(np.shape(images))
+print(np.shape(measurements))
 
 # Augment images by flipping them horizontally
 augmented_images, augmented_measurements = augment_images(images, measurements)
@@ -20,9 +23,12 @@ print("Image data shape =", image_shape)
 model = nvidia()
 
 model.compile(loss='mse', optimizer='adam')
-history_object = model.fit(x=X_train, y=y_train, validation_split=0.2, shuffle=True, nb_epoch=2)
+from keras.callbacks import ModelCheckpoint
 
-model.save('./model.h5')
+callback = ModelCheckpoint('model-2runs.{epoch:02d}-{val_loss:.5f}.h5')
+history_object = model.fit(x=X_train, y=y_train, validation_split=0.2, shuffle=True, nb_epoch=10, callbacks=[callback])
+
+model.save('./model-2runs.h5')
 
 ### print the keys contained in the history object
 print(history_object.history.keys())

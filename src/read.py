@@ -10,7 +10,7 @@ def read_images(folder, separator):
         return cv2.imread(folder+'/IMG/'+filename)
 
     lines = []
-    with open('./data/driving_log.csv') as csv_file:
+    with open(folder+'/driving_log.csv') as csv_file:
         reader = csv.reader(csv_file)
         next(reader, None)
         for line in reader:
@@ -20,7 +20,7 @@ def read_images(folder, separator):
     measurements = []
     for line in lines:
         measurement = float(line[3])
-        correction = 0.5
+        correction = 0.2
 
         center = get_image(line, 0)
         left = get_image(line, 1)
