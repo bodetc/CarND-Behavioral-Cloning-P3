@@ -6,7 +6,10 @@ import sklearn
 from sklearn.utils import shuffle
 
 
-def read_csv(folder, separator):
+# Reads a CSV file in the give folder and stores the lines in an array
+# The filenames of the first three columns are adapted to the fit the provided path
+# A seperator should be provided for proper parsing of the filenames. Use '/' for Unix and '\\' for Windows.
+def read_csv(folder='./data', separator='/'):
     samples = []
     with open(folder + '/driving_log.csv') as csvfile:
         reader = csv.reader(csvfile)

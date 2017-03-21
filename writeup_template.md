@@ -1,11 +1,5 @@
 #**Behavioral Cloning** 
 
-##Writeup Template
-
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
-
----
-
 **Behavioral Cloning Project**
 
 The goals / steps of this project are the following:
@@ -32,23 +26,27 @@ The goals / steps of this project are the following:
 ---
 ###Files Submitted & Code Quality
 
-####1. Submission includes all required files and can be used to run the simulator in autonomous mode
-
 My project includes the following files:
-* model.py containing the script to create and train the model
-* drive.py for driving the car in autonomous mode
-* model.h5 containing a trained convolution neural network 
-* writeup_report.md or writeup_report.pdf summarizing the results
+* `clone.py` containing the script train the model
+* `clone_generator.py` containing the script train the model using a generator
+* `src/generator.py` containing a generator function for reading the data while training
+* `src/models.py` containing the neural network models used in this project
+* `src/read.py` containing the functions to read the entire training data in memory.
+* the unmodified `drive.py` for driving the car in autonomous mode
+* `model.h5` containing the final trained convolution neural network 
+* `writeup_report.md` this file
 
-####2. Submission includes functional code
+Please note that my project can also be found on [GitHub](https://github.com/bodetc/CarND-Behavioral-Cloning-P3).
+
+
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
 python drive.py model.h5
 ```
 
-####3. Submission code is usable and readable
+The `clone.py` file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
-The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
+Similarly, the `clone_generator.py` file contains the code for training the network using a generator. This is useful when the training data does not fit in the memory.
 
 ###Model Architecture and Training Strategy
 
@@ -76,15 +74,31 @@ For details about how I created the training data, see the next section.
 
 ###Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+#### Solution Design Approach
 
-The overall strategy for deriving a model architecture was to ...
+The overall strategy for deriving a model architecture was to train the model on a limited number of training data (one lap on the first track in each direction).
+Then, the model was tested on the first track using the provided `drive.py`.
+
+The first model used was a fully-connected neural network without any hidden layer or activation function (basically a linear regression).
+While the performance of the model was extremely poor, it allowed me to quickly test the entire stack: collecting training data, training the model, and testing the model in the simulator.
+
+The second model used was the LeNet network, already used in the previous project.
+The input layers and following convolutional layers were extended to accommodate larger pictures.
+The code of the model is in the function `lenet()` of `src/models.py`.
+
+The collected data was augmented by adding flipped images...
+
+In that case, the model...
+
+Then, the data was further augmented by...
+
+With side camera images, the model manages to make a full lap of the first track. However, it doesn't stay on the main road and takes a shortcut via the dirt road that starts after the bridge.
+This model was however already allowing the vehicle to drive around the track without leaving roads or hitting any obstacles.
 
 My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
 
-To combat the overfitting, I modified the model so that ...
 
 Then I ... 
 
@@ -92,9 +106,11 @@ The final step was to run the simulator to see how well the car was driving arou
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
-####2. Final Model Architecture
+#### Final Model Architecture
 
 The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
+
+To combat the overfitting, I modified the model so that ...
 
 Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
 
@@ -127,3 +143,9 @@ After the collection process, I had X number of data points. I then preprocessed
 I finally randomly shuffled the data set and put Y% of the data into a validation set. 
 
 I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+
+### Testing
+
+#### Test run on the second first track
+
+#### Test run on the second track
