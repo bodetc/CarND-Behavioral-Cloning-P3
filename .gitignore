@@ -5,3 +5,5 @@ data/
 data_sim/
 *.h5
 run*
+/data_2runs/
+*.7z
