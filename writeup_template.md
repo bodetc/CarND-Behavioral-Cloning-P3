@@ -1,14 +1,10 @@
-#**Behavioral Cloning** 
+#**Behavioural Cloning Project** 
 
-**Behavioral Cloning Project**
-
-The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior
-* Build, a convolution neural network in Keras that predicts steering angles from images
-* Train and validate the model with a training and validation set
-* Test that the model successfully drives around track one without leaving the road
-* Summarize the results with a written report
-
+In this project, I built a neural network for behavioural cloning of driving around a test track.
+I used the provided simulator to generate a collect data of good driving behaviour based on my own driving.
+Then, a convolutional neural network was implemented in Keras to predict the correct steering angle based solely on
+image input from the center front camera.
+After training an validating the model, I verified that the model is able to successfully drive around the track without leaving the road.
 
 [//]: # (Image References)
 
@@ -21,11 +17,9 @@ The goals / steps of this project are the following:
 [center3]: ./writeup/center_3.jpg "Center"
 [right3]: ./writeup/right_3.jpg "Right"
 
-## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ---
-###Files Submitted & Code Quality
+##Files Submitted & Code Quality
 
 My project includes the following files:
 * `clone.py` containing the script train the model
@@ -38,7 +32,6 @@ My project includes the following files:
 * `writeup_report.md` this file
 
 Please note that my project can also be found on [GitHub](https://github.com/bodetc/CarND-Behavioral-Cloning-P3).
-
 
 Using the Udacity provided simulator and my drive.py file, the car can be driven autonomously around the track by executing 
 ```sh
@@ -142,12 +135,25 @@ I used an adam optimizer so that manually training the learning rate wasn't nece
 
 ![alt text][loss]
 
-## Testing
+## Final Testing
 
 ### Test run on the second first track
+
+The final test run on first track can be seen in the file `video.mpg`.
+The car manages to drive around the track without leaving the drivable portion of the track surface.
+It does not not pop up onto ledges or roll over any surfaces that would otherwise be considered unsafe.
+
+However, one sees that for some time after passing the bridge, the car follows closely the left side of the road.
+I does follow the side of road pretty good though, and doesn't leave the road.
+This was not happening before I introduced the training data form the second track, where I was driving in the right lane.
+It this case, I was not driving in the center of the road but more following one side of it.
+And the model was copying this behaviour on the first track
+Due to the flipped images, the model doesn't know the difference between left-hand and right-hand driving.
 
 
 ### Test run on the second track
 
 In the second track (`video_track2.mpg`), the cars successfully follows the right lane of the road until reaching the shadow of the mountain.
-From then on, the car simply drives straight ahead
+From then on, the car simply drives straight ahead until it leave the road and eventually get stuck.
+It seems that the model cannot handle properly the change in luminosity of the image.
+To combat this, a method similar to the used in the traffic sign project could be used: transformation of the RGB images to YUV and renormalization of the luminance channel.
