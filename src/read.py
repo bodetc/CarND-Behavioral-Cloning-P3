@@ -3,12 +3,14 @@ import csv
 import cv2
 
 
+# read CSV file in the provide folder and load all images
 def read_images(folder, separator):
     def get_image(line, index):
         path = line[index]
         filename = path.split(separator)[-1]
         return cv2.imread(folder+'/IMG/'+filename)
 
+    # Open and read CSV file
     lines = []
     with open(folder+'/driving_log.csv') as csv_file:
         reader = csv.reader(csv_file)
@@ -16,6 +18,7 @@ def read_images(folder, separator):
         for line in reader:
             lines.append(line)
 
+    # Read center, left and right images for each line in the CSV file
     images = []
     measurements = []
     for line in lines:
@@ -38,6 +41,7 @@ def read_images(folder, separator):
     return images, measurements
 
 
+# Flip images horizontally
 def augment_images(images, measurements):
     augmented_images = []
     augmented_measurements = []

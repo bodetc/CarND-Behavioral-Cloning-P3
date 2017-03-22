@@ -22,6 +22,7 @@ def read_csv(folder='./data', separator='/'):
     return samples
 
 
+# Creates a generator based on the provide samples
 def generator(samples, batch_size=32):
     num_samples = len(samples)
     while 1:  # Loop forever so the generator never terminates
@@ -29,6 +30,7 @@ def generator(samples, batch_size=32):
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset:offset + batch_size]
 
+            # Read center, left and right images for each line in the batch
             images = []
             measurements = []
             for batch_sample in batch_samples:
@@ -48,6 +50,7 @@ def generator(samples, batch_size=32):
                 measurements.append(measurement - correction)
                 images.append(right)
 
+            # Flip images horizontally
             augmented_images = []
             augmented_measurements = []
             for image, measurement in zip(images, measurements):
